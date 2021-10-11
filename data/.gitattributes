@@ -1,2 +1,0 @@
-*.rda filter=lfs diff=lfs merge=lfs -text
-tcga_cancer_methylation_change_tables.rda filter=lfs diff=lfs merge=lfs -text
