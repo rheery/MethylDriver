@@ -1,0 +1,29 @@
+Package: MethylDriver
+Title: Find driver methylation events in cancer
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Richard",
+           family = "Heery",
+           role = c("aut", "cre"),
+           email = "rheery@tcd.ie",
+           comment = c(ORCID = "0000-0001-8067-3114"))
+Description: Finds regions where methylation change differs significantly from those of most similar regions, indicating that methylation changes in these regions may be driver events in cancer
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends: R (>= 2.10)
+NeedsCompilation: no
+Packaged: 2021-04-19 08:47:54 UTC; richard
+Author: Richard Heery [aut, cre] (0000-0001-8067-3114)
+Maintainer: Richard Heery <rheery@tcd.ie>
+biocViews:
+Imports: 
+    GenomicRanges,
+    dplyr,
+    multivariance,
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
