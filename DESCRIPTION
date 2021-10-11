@@ -23,7 +23,7 @@ Imports:
     GenomicRanges,
     dplyr,
     multivariance,
+    rmarkdown
 Suggests: 
-    rmarkdown,
     knitr
 VignetteBuilder: knitr

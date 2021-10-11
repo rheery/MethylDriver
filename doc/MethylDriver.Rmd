@@ -21,9 +21,9 @@ coad_methyldriver_results = MethylDriver:::coad_methyldriver_results
 
 MethylDriver is a tool for identification of a small number of putative epigenetic driver events from among the vast numbers of regions which exhibit methylation change in cancer, analogous to the problem of distinguishing driver and passenger mutations in cancer. Certain regions are more likely to be affected by methylation change in cancer and the levels of epigenetic marks present at these regions can predict much of the regional variation in methylation change. The principle of MethylDriver is that regions whose methylation is largely predictable from the epigenetic marks present at these regions can be considered to be passenger epigenetic events, while the regions whose methylation differs significantly from what would be expected can be considered to be putative epigenetic drivers. 
 
-MethylDriver uses a set of epigenetic features for regions of interest to place regions in a multidimensional space based on their similarity in terms of these features and then creates neighborhoods to compare methylation at similar regions. Regions whose methylation change differs significantly from other regions in their neighborhoods are flagged as putative epigenetic driver events. 
+MethylDriver uses a set of epigenetic features for regions of interest to place regions in a multidimensional space based on their similarity in terms of these features and then creates neighborhoods to compare methylation at similar regions. Regions whose methylation change differs significantly from other regions in their neighborhoods are flagged as putative epigenetic driver events. The below figure depicts the MethylDriver algorithm graphically. 
 
-In the example shown in the figure below, while the APC and HOXC11 promoters show similar levels of methylation gain in colon cancer, only the APC promoter has a methylation change significantly different to the distribution of its neighborhood. 
+In the example shown in the figure, while the APC and HOXC11 promoters show similar levels of methylation gain in colon cancer, only the APC promoter has a methylation change significantly different to the distribution of its neighborhood. 
 
 ```{R, fig.align="center", echo = F}
 knitr::include_graphics(system.file("extdata", "methyldriver_algorithm.png", package = "MethylDriver"))
@@ -35,22 +35,26 @@ Find the mean methylation change for each promoter in COAD.
 ```{R, eval = F}
 mean_promoter_methylation_change_coad = rowMeans(tcga_cancer_methylation_change_tables$COAD, na.rm = T)
 ```
+<br>
 
 Create a list with the 100 most similar promoters based on the epigenetic features for each promoter from the Roadmap Epigenomics project and using a neighborhood size of 100.
 ```{R, eval = F}
 promoter_neighborhoods_list = most_similar_n_regions(feature_table = epd_promoter_epigenetic_features, ranges = epd_promoters, n = 100)
 ```
+<br>
 
 Run MethylDriver on the mean methylation change values observed at each promoter in matching normal-tumour colon cancer (COAD) samples from TCGA. FDR is used for multiple testing correction and 0.05 is used as the q-value cutoff.
 ```{R, eval = F}
 coad_methyldriver_results = MethylDriver(region_methyl_change = mean_promoter_methylation_change_coad, 
   regions_genes = epd_promoters$gene, closest_regions_list = promoter_neighborhoods_list, multiple_correction = "fdr", q_value_cutoff = 0.05)
 ```
+<br>
 
 View the top 10 epigenetic driver gene candidates.
 ```{R}
 knitr::kable(head(coad_methyldriver_results$full_results, 10), digits = 3)
 ```
+<br>
 
 Print lists of all identified putative hypermethylated and hypomethylated drivers. These will be all genes associated with promoters with a q-value below the indicated cutoff and a mean increase or decrease  in methylation change, respectively. 
 ```{R, eval = F}
